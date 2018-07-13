@@ -49,6 +49,22 @@ Wir hatten uns zuerst für die erste Lösung entschieden. Jedoch stellten wir sc
 Deshalb entschieden wir uns für die 2. Lösung.
 
 ### Planung
+
+##### Benötigte Komponente:
+* Android Studio
+* Samsung Driver für ADB
+* Server (In diesem Projekt Ubuntu Server 16.07)
+* NGINX
+* PHP7
+* Let's Encrypt
+* DNS (nitinankeel.ch)
+* Docker
+* MySQL Docker Container
+* Samsung S8
+* Google API
+* Bücher für Testing
+
+
 #### Grobplanung:
 
 Schritt|Erledigt
@@ -59,7 +75,6 @@ Datenbank | <ul><li>- [ ] </li></ul>
 Schnittstellen | <ul><li>- [ ] </li></ul>
 Webseite zur Darstellung der Informationen | <ul><li>- [ ] </li></ul>
 
-
 #### Feinplanung:
 **Smartphone APP entwickeln**
 
@@ -69,11 +84,6 @@ Android Studio installiert | <ul><li>- [ ] </li></ul>
 Samsung Driver für das Testing auf einem Gerät | <ul><li>- [ ] </li></ul>
 Layout für das APP erstellt | <ul><li>- [ ] </li></ul>
 Barcode kann gescannt werden | <ul><li>- [ ] </li></ul>
-
-##### Benötigte Komponente:
-* Android Studio
-* Samsung Driver für ADB
-* Server (In diesem Projekt Ubuntu Server 16.07)
 
 **Webservice**
 
@@ -86,13 +96,6 @@ PHP7 konfigurieren | <ul><li>- [ ] </li></ul>
 Let's Encrypt installieren | <ul><li>- [ ] </li></ul>
 Let's Encrypt konfigurieren | <ul><li>- [ ] </li></ul>
 
-##### Benötigte Komponente:
-* NGINX
-* PHP7
-* Let's Encrypt
-* Server (In diesem Projekt Ubuntu Server 16.07)
-* DNS (nitinankeel.ch)
-
 **Datenbank**
 
 Schritt|Erledigt
@@ -102,10 +105,6 @@ MySQL 5.7 installieren | <ul><li>- [ ] </li></ul>
 MySQL 5.7 konfigurieren | <ul><li>- [ ] </li></ul>
 Datenbak erstellen | <ul><li>- [ ] </li></ul>
 Tabelle erstellen | <ul><li>- [ ] </li></ul>
-
-##### Benötigte Komponente:
-* Docker
-* MySQL Docker Container
 
 **Schnittstellen**
 
@@ -117,18 +116,103 @@ index.php überprüft, ob die ISBN in der Datenbank schon vorhanden ist | <ul><l
 Falls ISBN nicht vorhanden ist, nimmt index.php <br> Verbindung mit google API auf und sucht nach weitere Informationen über das Buch | <ul><li>- [ ] </li></ul>
 Neue Informationen werden über PHP / index.php in die MySQL Datenbank gespeichert | <ul><li>- [ ] </li></ul>
 
-##### Benötigte Komponente:
-* Smartphone APP
-* Webservice
-* Google API
-* MySQL Datenbank
-
 **Webseite**
 Schritt|Erledigt
 ---|---
 powershell.nitiankeel.ch/view.php greift auf die Datenbank zu | <ul><li>- [ ] </li></ul>
 powershell.nitiankeel.ch/view.php zeigt Daten in einer dynamischen Tabelle an | <ul><li>- [ ] </li></ul>
+
 ### Realisierung
+
+#### Smartphone APP
+
+Siehe Ordner "barcode".
+Wichtigsten Files:
+* /barcode/app/java/HomeActivity.java
+* /barcode/gradle/app
+* /barcode/manifests/AndroidManifests.xml
+* /barcode/res/layout/activity_home.xml
+
+**HomeActivity.java**
+```JAVA
+...
+...
+
+public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanningResult != null) {
+
+            # Holt sich ISBN des Scannes
+            codeContent = scanningResult.getContents(); 
+
+            txtShowTextResult = (TextView) findViewById(R.id.txtDisplay);
+
+            # Neue Requestqueue über Volley
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+            # URL für die Datenübertragung
+            final String url = "https://powershell.nitinankeel.ch";
+
+            # Erstellt POST Request und packt ISBN ins Body als Argument
+            StringRequest postRequest  = new StringRequest
+                    (Request.Method.POST, url, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            txtShowTextResult.setText("Response: " + response);
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            txtShowTextResult.setText("An Error occured while making the request");
+                        }
+                    }){
+                @Override
+                protected Map<String, String> getParams()
+                {
+                    Map<String, String>  params = new HashMap<String, String>();
+                    params.put("isbn", codeContent);
+
+                    return params;
+                }
+            };
+
+            # Schickt den Request
+            requestQueue.add(postRequest);
+        }else{
+            Toast toast = Toast.makeText(getApplicationContext(),"No scan data received!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
+...
+...
+```
+
+**app**
+```JAVA
+...
+...
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:21.0.3'
+    implementation 'com.journeyapps:zxing-android-embedded:2.0.1@aar'
+    implementation 'com.journeyapps:zxing-android-legacy:2.0.1@aar'
+    implementation 'com.journeyapps:zxing-android-integration:2.0.1@aar'
+    implementation 'com.google.zxing:core:3.0.1'
+    implementation 'com.android.volley:volley:1.0.0'
+}
+```
+
+**AndroidManifests.xml**
+```XML
+...
+...
+    # Permissions setzten!
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+...
+...
+```
 
 ### Testing
 

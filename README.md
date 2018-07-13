@@ -59,7 +59,7 @@ Datenbank konfiguriert | <ul><li>- [ ] </li></ul>
 Schnittstelle zwischen APP und Server | <ul><li>- [ ] </li></ul>
 Schnittstelle zwischen Server und Internet / API | <ul><li>- [ ] </li></ul>
 Webseite erstellt | <ul><li>- [ ] </li></ul>
-Schnittstelle zwischen Webservice und Datenbank | <ul><li>- [ ] </li></ul>
+Schnittstelle zwischen Webservice und Datenbank | <ul><li>- [ ] </li></ul>|
 
 #### Feinplanung:
 **Smartphone APP entwickeln**
@@ -69,7 +69,7 @@ Android Studio installiert | <ul><li>- [ ] </li></ul>
 Samsung Driver für das Testing auf einem Gerät | <ul><li>- [ ] </li></ul>
 Layout für das APP erstellt | <ul><li>- [ ] </li></ul>
 Barcode kann gescannt werden | <ul><li>- [ ] </li></ul>
-Smartphone schickt ISBN per POST an einem Server | <ul><li>- [ ] </li></ul>
+Smartphone schickt ISBN per POST an einem Server | <ul><li>- [ ] </li></ul>|
 
 ##### Benötigte Komponente:
 * Android Studio
@@ -84,7 +84,7 @@ NGINX konfigurieren | <ul><li>- [ ] </li></ul>
 PHP7 installieren | <ul><li>- [ ] </li></ul>
 PHP7 konfigurieren | <ul><li>- [ ] </li></ul>
 Let's Encrypt installieren | <ul><li>- [ ] </li></ul>
-Let's Encrypt konfigurieren | <ul><li>- [ ] </li></ul>
+Let's Encrypt konfigurieren | <ul><li>- [ ] </li></ul>|
 
 ##### Benötigte Komponente:
 * NGINX

@@ -49,7 +49,17 @@ Wir hatten uns zuerst für die erste Lösung entschieden. Jedoch stellten wir sc
 Deshalb entschieden wir uns für die 2. Lösung.
 
 ### Planung
+Hier eine Grobplanung:
 
+Schritt|Erledigt
+---|---
+Smartphone APP entwickeln | <ul><li>- [ ] </li></ul>
+Webservice konfiguriert | <ul><li>- [ ] </li></ul>
+Datenbank konfiguriert | <ul><li>- [ ] </li></ul>
+Schnittstelle zwischen APP und Server | <ul><li>- [ ] </li></ul>
+Schnittstelle zwischen Server und Internet / API | <ul><li>- [ ] </li></ul>
+Webseite erstellt | <ul><li>- [ ] </li></ul>
+Schnittstelle zwischen Webservice und Datenbank | <ul><li>- [ ] </li></ul>
 
 
 ### Realisierung

@@ -40,6 +40,14 @@ Manga Inventory System:
 ##### Lösung 1:
 Der Raspberry steht neben einem Bücherregal und scannt neue Bücher ein, sobald man diese ins Regal stellt. Der Raspberry ist mit Raspbian aufgesetzt. Am Raspberry angeschlossen, ist eine Webcam. Diese nimmt das Bild auf und leitet es an einem Programm weiter. Das Programm erkennt die ISBN, schickt es an einem Server, der Server speichert die ISBN in eine Datenbank und sucht gleichzeitig nach mehr Informationen (Titel, Cover Bild, Release Date und Author). Die Daten werden ebenfalls in die Datenbank gespeichert. Eine HTML Webseite zeigt alle Bücher mit deren Zusatzinformationen, die in der Datenbank vorhanden sind, an.
 
+##### Lösung 2:
+Der Scann wird mit einem Smartphone / App ausgeführt. Die App schickt nach dem Scann die ISBN an einem Server weiter. Dieser Server sucht weitere Informationen über das Buch mithilfe der ISBN. Anschliessend speichert der Server diese Daten in eine Datenbank und stellt es auf einer Webseite dar.  
+
+##### Entscheidung
+Wir hatten uns zuerst für die erste Lösung entschieden. Jedoch stellten wir schnell fest, dass der Raspberry den Barcode nicht gut erkennen kann. Das Problem lag an der Webcam. Die Webcam hat keinen Autofokus, weshalb die neu ins Regal gestellten Bücher, nicht erkannt werden.
+
+Deshalb entschieden wir uns für die 2. Lösung.
+
 ### Planung
 
 

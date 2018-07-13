@@ -49,7 +49,7 @@ Wir hatten uns zuerst für die erste Lösung entschieden. Jedoch stellten wir sc
 Deshalb entschieden wir uns für die 2. Lösung.
 
 ### Planung
-Hier eine Grobplanung:
+#### Grobplanung:
 
 Schritt|Erledigt
 ---|---
@@ -60,6 +60,39 @@ Schnittstelle zwischen APP und Server | <ul><li>- [ ] </li></ul>
 Schnittstelle zwischen Server und Internet / API | <ul><li>- [ ] </li></ul>
 Webseite erstellt | <ul><li>- [ ] </li></ul>
 Schnittstelle zwischen Webservice und Datenbank | <ul><li>- [ ] </li></ul>
+
+#### Feinplanung:
+**Smartphone APP entwickeln**
+Schritt|Erledigt
+---|---
+Android Studio installiert | <ul><li>- [ ] </li></ul>
+Samsung Driver für das Testing auf einem Gerät | <ul><li>- [ ] </li></ul>
+Layout für das APP erstellt | <ul><li>- [ ] </li></ul>
+Barcode kann gescannt werden | <ul><li>- [ ] </li></ul>
+Smartphone schickt ISBN per POST an einem Server | <ul><li>- [ ] </li></ul>
+
+##### Benötigte Komponente:
+* Android Studio
+* Samsung Driver für ADB
+* Server (In diesem Projekt Ubuntu Server 16.07)
+
+**Webservice konfiguriert**
+Schritt|Erledigt
+---|---
+NGINX installiern | <ul><li>- [ ] </li></ul>
+NGINX konfigurieren | <ul><li>- [ ] </li></ul>
+PHP7 installieren | <ul><li>- [ ] </li></ul>
+PHP7 konfigurieren | <ul><li>- [ ] </li></ul>
+Let's Encrypt installieren | <ul><li>- [ ] </li></ul>
+Let's Encrypt konfigurieren | <ul><li>- [ ] </li></ul>
+
+##### Benötigte Komponente:
+* NGINX
+* PHP7
+* Let's Encrypt
+* Server (In diesem Projekt Ubuntu Server 16.07)
+* DNS (nitinankeel.ch)
+
 
 
 ### Realisierung

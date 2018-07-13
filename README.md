@@ -53,7 +53,7 @@ Deshalb entschieden wir uns für die 2. Lösung.
 ##### Benötigte Komponente:
 * Android Studio
 * Samsung Driver für ADB
-* Server (In diesem Projekt Ubuntu Server 16.07)
+* Server (In diesem Projekt Ubuntu Server 16.04)
 * NGINX
 * PHP7
 * Let's Encrypt
@@ -117,12 +117,18 @@ Falls ISBN nicht vorhanden ist, nimmt index.php <br> Verbindung mit google API a
 Neue Informationen werden über PHP / index.php in die MySQL Datenbank gespeichert | <ul><li>- [ ] </li></ul>
 
 **Webseite**
+
 Schritt|Erledigt
 ---|---
 powershell.nitiankeel.ch/view.php greift auf die Datenbank zu | <ul><li>- [ ] </li></ul>
 powershell.nitiankeel.ch/view.php zeigt Daten in einer dynamischen Tabelle an | <ul><li>- [ ] </li></ul>
 
 ### Realisierung
+#### Android Studio installieren
+https://developer.android.com/studio/
+
+#### Samsung Driver installieren
+https://developer.samsung.com/galaxy/others/android-usb-driver-for-windows
 
 #### Smartphone APP
 
@@ -213,6 +219,46 @@ dependencies {
 ...
 ...
 ```
+
+#### Webservice
+
+##### NIGNX
+**Installation**
+https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04
+
+**Konfiguration**
+1. Neue Subdomain erstellen
+```bash
+vim /etc/nginx/sites-available/powershell.nitinankeel.ch
+```
+```vi
+server {
+        root /var/www/powershell;
+        index index.php index.html index.htm;
+        server_name powershell.nitinankeel.ch;
+        location ~ \.php$ {
+                #If a file isn’t found, 404
+                try_files $uri =404;
+                #Include Nginx’s fastcgi configuration
+                include /etc/nginx/fastcgi.conf;
+                #Look for the FastCGI Process Manager at this location
+                fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+        }
+}
+```
+2. Ordner für Subdomain anlegen
+```bash
+mkdir /var/www/powershell
+```
+
+##### PHP7
+
+**Installation und Konfiguration**
+https://thishosting.rocks/install-php-on-ubuntu/
+
+##### Let's Encrypt
+**Installation und Konfiguration**
+https://www.digitalocean.com/community/tutorials/how-to-secure-apache-with-let-s-encrypt-on-ubuntu-16-04
 
 ### Testing
 

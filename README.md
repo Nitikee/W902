@@ -54,12 +54,11 @@ Deshalb entschieden wir uns für die 2. Lösung.
 Schritt|Erledigt
 ---|---
 Smartphone APP entwickeln | <ul><li>- [ ] </li></ul>
-Webservice konfiguriert | <ul><li>- [ ] </li></ul>
-Datenbank konfiguriert | <ul><li>- [ ] </li></ul>
-Schnittstelle zwischen APP und Server | <ul><li>- [ ] </li></ul>
-Schnittstelle zwischen Server und Internet / API | <ul><li>- [ ] </li></ul>
-Webseite erstellt | <ul><li>- [ ] </li></ul>
-Schnittstelle zwischen Webservice und Datenbank | <ul><li>- [ ] </li></ul>
+Webservice | <ul><li>- [ ] </li></ul>
+Datenbank | <ul><li>- [ ] </li></ul>
+Schnittstellen | <ul><li>- [ ] </li></ul>
+Webseite zur Darstellung der Informationen | <ul><li>- [ ] </li></ul>
+
 
 #### Feinplanung:
 **Smartphone APP entwickeln**
@@ -70,18 +69,17 @@ Android Studio installiert | <ul><li>- [ ] </li></ul>
 Samsung Driver für das Testing auf einem Gerät | <ul><li>- [ ] </li></ul>
 Layout für das APP erstellt | <ul><li>- [ ] </li></ul>
 Barcode kann gescannt werden | <ul><li>- [ ] </li></ul>
-Smartphone schickt ISBN per POST an einem Server | <ul><li>- [ ] </li></ul>
 
 ##### Benötigte Komponente:
 * Android Studio
 * Samsung Driver für ADB
 * Server (In diesem Projekt Ubuntu Server 16.07)
 
-**Webservice konfiguriert**
+**Webservice**
 
 Schritt|Erledigt
 ---|---
-NGINX installiern | <ul><li>- [ ] </li></ul>
+NGINX installieren | <ul><li>- [ ] </li></ul>
 NGINX konfigurieren | <ul><li>- [ ] </li></ul>
 PHP7 installieren | <ul><li>- [ ] </li></ul>
 PHP7 konfigurieren | <ul><li>- [ ] </li></ul>
@@ -95,8 +93,41 @@ Let's Encrypt konfigurieren | <ul><li>- [ ] </li></ul>
 * Server (In diesem Projekt Ubuntu Server 16.07)
 * DNS (nitinankeel.ch)
 
+**Datenbank**
 
+Schritt|Erledigt
+---|---
+Docker installieren | <ul><li>- [ ] </li></ul>
+MySQL 5.7 installieren | <ul><li>- [ ] </li></ul>
+MySQL 5.7 konfigurieren | <ul><li>- [ ] </li></ul>
+Datenbak erstellen | <ul><li>- [ ] </li></ul>
+Tabelle erstellen | <ul><li>- [ ] </li></ul>
 
+##### Benötigte Komponente:
+* Docker
+* MySQL Docker Container
+
+**Schnittstellen**
+
+Schritt|Erledigt
+---|---
+Smartphone schickt ISBN per POST Request an <br> powershell.nitinankeel.ch/index.php | <ul><li>- [ ] </li></ul>
+index.php nimmt die Anfrage an | <ul><li>- [ ] </li></ul>
+index.php überprüft, ob die ISBN in der Datenbank schon vorhanden ist | <ul><li>- [ ] </li></ul>
+Falls ISBN nicht vorhanden ist, nimmt index.php <br> Verbindung mit google API auf und sucht nach weitere Informationen über das Buch | <ul><li>- [ ] </li></ul>
+Neue Informationen werden über PHP / index.php in die MySQL Datenbank gespeichert | <ul><li>- [ ] </li></ul>
+
+##### Benötigte Komponente:
+* Smartphone APP
+* Webservice
+* Google API
+* MySQL Datenbank
+
+**Webseite**
+Schritt|Erledigt
+---|---
+powershell.nitiankeel.ch/view.php greift auf die Datenbank zu | <ul><li>- [ ] </li></ul>
+powershell.nitiankeel.ch/view.php zeigt Daten in einer dynamischen Tabelle an | <ul><li>- [ ] </li></ul>
 ### Realisierung
 
 ### Testing

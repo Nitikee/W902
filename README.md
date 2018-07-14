@@ -406,7 +406,7 @@ if (!$query) {
 }
 ?>
 ```
-````HTML
+```HTML
 <html>
 <head>
 	<title>IOTW910</title>
@@ -464,7 +464,7 @@ if (!$query) {
 
                     <!-- Holt sich das Bild per Link -->
 					<td><img src='.$row['img'].'></td>
-                    
+
 					<td>'.$row['releasedate'].'</td>
 					<td>'.$row['author'].'</td>
 					<td>'.$row['isbn'].'</td>
@@ -479,10 +479,21 @@ if (!$query) {
 
 ### Testing
 
+Testschritte|Erwartetes Ergebnis| Ergebnis 
+---|---|---
+Barcode Scannen |Barcode wird gescannt und auf der view.php Seite, erscheint das Buch mit neuen Informationen| Barcode wird gescannt und auf der view.php Seite, erscheint das Buch mit neuen Informationen
+Gleicher Barcode scannen |Antwort auf die POST Anfrage: Book is already in Database|Antwort auf die POST Anfrage: Book is already in Database
+Per Webbrowser auf index.php zugreifen ohne POST Argument |Anzeige auf der index.php Seite: no ISBN fetched! <br> Nothing changed!|Anzeige auf der index.php Seite: no ISBN fetched! <br> Nothing changed!
+Coca Cola gescannt|Antowrt auf die Anfrage: "no ISBN detected"|Antowrt auf die Anfrage: "no ISBN detected"
+
 ### Fazit
+Das Projekt hatte uns sehr viel Spass gemacht. Die schwierigste Aufgabe, war die Android App zu erstellen. Wir hatten noch keine Erfahrung mit JAVA und PHP und konnten daher sehr vieles lernen. 
 
 ### Sicherheitsaspekte
+Um die Sicherheit weiter auszubauen, wäre es sinnvoll ein API Tocken für die App zu erstellen, damit nur authorisierte Personen Daten in die Datenbank laden können. Zudem sollte man sich auf das Webinterface anmelden, damit nicht jeder im Internet zugriff auf die Daten hat.
+
 
 ### Transfer in die Praxis
+Nützlich wäre das Projekt z.B. mit einem Scanner an einem Bücherregal. Neu ins Regal gestellte Bücher würden sofort in die Datenbank gescannt werden. Zudem könnte man einen Dienst programmieren, der neue Kapitel oder Bücher der Serie sucht und sich per App oder Mail meldet falls es etwas gefunden hat. Somit ist der Benutzer immer auf dem neusten Stand. 
 
 ### Nützliche Links

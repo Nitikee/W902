@@ -497,3 +497,21 @@ Um die Sicherheit weiter auszubauen, wäre es sinnvoll ein API Tocken für die A
 Nützlich wäre das Projekt z.B. mit einem Scanner an einem Bücherregal. Neu ins Regal gestellte Bücher würden sofort in die Datenbank gescannt werden. Zudem könnte man einen Dienst programmieren, der neue Kapitel oder Bücher der Serie sucht und sich per App oder Mail meldet falls es etwas gefunden hat. Somit ist der Benutzer immer auf dem neusten Stand. 
 
 ### Nützliche Links
+* https://hub.docker.com/_/mysql/
+* https://developer.android.com/studio/
+* https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04
+* https://www.digitalocean.com/community/tutorials/how-to-secure-apache-with-let-s-encrypt-on-ubuntu-16-04
+* https://thishosting.rocks/install-php-on-ubuntu/
+* https://stackoverflow.com/questions/42229312/reading-post-data-in-php7
+* https://www.w3schools.com/js/js_json_php.asp
+* https://www.w3schools.com/php/php_mysql_intro.asp
+* https://stackoverflow.com/questions/5182164/sql-server-default-character-encoding
+* http://php.net/manual/de/function.mysql-list-tables.php
+* https://code.tutsplus.com/tutorials/android-sdk-create-a-barcode-reader--mobile-17162
+* https://developer.android.com/training/volley/
+* https://developer.android.com/studio/projects/
+* https://developers.google.com/books/docs/v1/using
+* https://developers.google.com/books/docs/v1/performance
+* http://php.net/manual/en/function.curl-exec.php
+* https://www.heidisql.com/
+* https://www.digitalocean.com/community/questions/how-to-create-subdomain-with-nginx-server-in-the-same-droplet

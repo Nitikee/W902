@@ -63,6 +63,7 @@ Deshalb entschieden wir uns für die 2. Lösung.
 * Samsung S8
 * Google API
 * Bücher für Testing
+* HeidiSQL
 
 
 #### Grobplanung:
@@ -102,7 +103,6 @@ Schritt|Erledigt
 ---|---
 Docker installieren | <ul><li>- [ ] </li></ul>
 MySQL 5.7 installieren | <ul><li>- [ ] </li></ul>
-MySQL 5.7 konfigurieren | <ul><li>- [ ] </li></ul>
 Datenbak erstellen | <ul><li>- [ ] </li></ul>
 Tabelle erstellen | <ul><li>- [ ] </li></ul>
 
@@ -257,8 +257,225 @@ mkdir /var/www/powershell
 https://thishosting.rocks/install-php-on-ubuntu/
 
 ##### Let's Encrypt
-**Installation und Konfiguration**
+**Installation**
 https://www.digitalocean.com/community/tutorials/how-to-secure-apache-with-let-s-encrypt-on-ubuntu-16-04
+
+**Zertifikat erstellen**
+```bash
+certbot --nginx -d powershell.nitinankeel.ch
+```
+
+#### Docker Service mit MySQL
+
+**Docker installieren**
+https://docs.docker.com/install/linux/docker-ce/ubuntu/
+
+**MySQL installieren**
+```bash
+docker run --name iotw902 -e MYSQL_ROOT_PASSWORD=YOUR-PASSWORD -d mysql:5.7 --port 3306:3306
+```
+**Datenbank erstellen und Tabelle anlegen**
+Mithilfe dem "create_database.sql" File die Datenbank erstellen.
+
+#### Schnittstellen und Webseite
+Die Webseite und alle Schnittstellen werden über 2 PHP Scritps gesteuert.
+Beide PHP Scripts müssen in den Ordner /var/www/powershell/ eingefügt werden.
+
+**index.php**
+```PHP
+<?php
+//Serveradresse
+$servername = "172.17.0.4";
+
+//Benutzername der SQL Datenbank
+$username = "root";
+
+//Password des Benutzers
+$password = "YOUR-PASSWORD";
+
+//Datenbank Name
+$dbname = "iotw910";
+
+//Holt sich das Argument 'isbn' in einer POST request
+$isbn = $_POST['isbn'];
+
+//Falls keine Daten im POST vorhanden ist, gib eine Fehlermeldung
+if(!empty($isbn)){
+
+        // Erstelle Verbindung mit MySQL-Datenbank
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
+        // Falls keien Verbindung zustande kommt gib eine Fehlermeldung 
+        if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+        }
+
+        // Holt sich Daten von der Tablle "tbl_books"
+        $sql = "SELECT * FROM tbl_books";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+        
+        // Vergleicht, ob die ISBN in der Datenbank schon vorhanden ist
+        $isindb = array();
+                while($row = $result->fetch_assoc()){
+                        if($isbn == $row["isbn"]){
+                                array_push($isindb,0);
+                        }
+                        else{
+                                array_push($isindb,1);
+                        }
+                }
+
+                // Falls ISBN schon vorhanden ist, gibt es eine Meldung
+                if(in_array("0",$isindb)){
+                        echo "Book is in database";
+                }
+
+                // Falls nicht holt es sich alle Infos von der Google API 
+                else{
+                        echo "getting book <br>";
+                        $curl = curl_init();
+                        curl_setopt_array($curl, array(
+                        CURLOPT_RETURNTRANSFER => 1,
+                        
+                        // Der Link zur Google API. Variable ist $isbn.
+                        CURLOPT_URL => "https://www.googleapis.com/books/v1/volumes?q=isbn+$isbn&maxResults=1&fields=items(volumeInfo/title,volumeInfo/imageLinks/smallThumbnail,volumeInfo/publishedDate,volumeInfo/authors)",
+                        CURLOPT_USERAGENT => 'Codular Sample cURL Request'
+                        ));
+                        $resp = curl_exec($curl);
+                        curl_close($curl);
+
+                        // Formatiert die Daten in JSON und speichert es als Variable ab
+                        $jsonarray = json_decode($resp,True);
+                        $jsonarray = $jsonarray['items']['0']['volumeInfo'];
+                        $booktitle = $jsonarray['title'];
+                        $bookthumbnail = $jsonarray['imageLinks']['smallThumbnail'];
+                        $bookpublish = $jsonarray['publishedDate'];
+                        $bookauthors = $jsonarray['authors']['0'];
+                        $id = $result->num_rows + 1;
+
+                        // Speichert die Variablen in die Datenbank
+                        $insertsql = "INSERT INTO tbl_books (id,bookname, img, releasedate, author, isbn)
+                                Values ($id, '$booktitle', '$bookthumbnail', '$bookpublish', '$bookauthors', '$isbn')";
+                        if ($conn->query($insertsql) === TRUE) {
+                                echo "New record created successfully";
+                        } else {
+                                echo "Error: " . $insertsql . "<br>" . $conn->error;
+                        }
+                }
+        }
+        else {
+                echo "0 results";
+        }
+        $conn->close();
+        }
+        else{
+                echo "no ISBN fetched! <br> Nothing changed!";
+```
+
+**view.php**
+```PHP
+<?php
+//Serveradresse
+$db_host = '172.17.0.4';
+
+//Benutzername der SQL Datenbank
+$db_user = 'root';
+
+//Password des Benutzers
+$db_pass = 'YOUR-PASSWORD';
+
+//Datenbank Name
+$db_name = 'iotw910';
+
+// Verbinde zur MySQL Datenbank
+$conn = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
+if (!$conn) {
+	die ('Failed to connect to MySQL: ' . mysqli_connect_error());	
+}
+
+// Holt sich Daten von der Tablle "tbl_books"
+$sql = 'SELECT * 
+		FROM tbl_books';
+
+// Speichert die Verbindung als Variable
+$query = mysqli_query($conn, $sql);
+
+if (!$query) {
+	die ('SQL Error: ' . mysqli_error($conn));
+}
+?>
+```
+````HTML
+<html>
+<head>
+	<title>IOTW910</title>
+	<style type="text/css">
+		body {
+			font-size: 15px;
+			color: #343d44;
+			font-family: "segoe-ui", "open-sans", tahoma, arial;
+			padding: 0;
+			margin: 0;
+		}
+
+        <code>...        
+        ...
+        <code>...
+
+		.data-table tfoot th {
+			background-color: #e5f5ff;
+			text-align: right;
+		}
+		.data-table tfoot th:first-child {
+			text-align: left;
+		}
+		.data-table tbody td:empty
+		{
+			background-color: #ffcccc;
+		}
+	</style>
+
+    <!-- Aktualisiert die Seite jede Minuti -->
+	<meta http-equiv="refresh" content="60" >
+</head>
+<body>
+	<h1>My Inventory</h1>
+	<table class="data-table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Title</th>
+				<th>Cover</th>
+				<th>Release Date</th>
+				<th>Author</th>
+				<th>ISBN</th>
+			</tr>
+		</thead>
+		<tbody>
+
+		<?php
+        <!-- Holt sich alle Daten der Tablle und zeitgt es als Tabelle an -->
+		while ($row = mysqli_fetch_array($query))
+		{
+			echo '<tr>
+					<td>'.$row['id'].'</td>
+					<td>'.$row['bookname'].'</td>
+
+                    <!-- Holt sich das Bild per Link -->
+					<td><img src='.$row['img'].'></td>
+                    
+					<td>'.$row['releasedate'].'</td>
+					<td>'.$row['author'].'</td>
+					<td>'.$row['isbn'].'</td>
+				</tr>';
+		}?>
+
+		</tbody>
+	</table>
+</body>
+</html>
+```
 
 ### Testing
 
